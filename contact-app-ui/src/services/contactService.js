@@ -1,16 +1,19 @@
-const API_BASE = "http://localhost:8080/api/contacts";
+const API_BASE = "http://localhost:9090/api/contacts";
 
 export const getContacts = async () => {
   const res = await fetch(API_BASE);
+  console.log("calling API : "+API_BASE);
   return res.json();
 };
 
 export const getContact = async (id) => {
   const res = await fetch(`${API_BASE}/${id}`);
+  console.log("calling API : "+API_BASE);
   return res.json();
 };
 
 export const addContact = async (contact) => {
+  console.log("calling API : "+API_BASE);
   return fetch(API_BASE, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -19,6 +22,7 @@ export const addContact = async (contact) => {
 };
 
 export const updateContact = async (id, contact) => {
+  console.log("calling API : "+API_BASE);
   return fetch(`${API_BASE}/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
