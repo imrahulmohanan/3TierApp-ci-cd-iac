@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   db:
-    image: mysql:8
+    image: imrahulmohanan/contact-app:db-latest
     container_name: mysql-contact-db
     restart: always
     environment:
@@ -14,7 +14,7 @@ services:
       - db-data:/var/lib/mysql
 
   api:
-    image: imrahulmohanan/contact-app-api:latest
+    image: imrahulmohanan/contact-app:api-latest
     container_name: contact-api
     restart: always
     depends_on:
@@ -27,7 +27,7 @@ services:
       - "9090:9090"
 
   ui:
-    image: yourdockerhubuser/contact-app-ui:latest
+    image: yourdockerhubuser/contact-app:ui-latest
     container_name: contact-ui
     restart: always
     depends_on:

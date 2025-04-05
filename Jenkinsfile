@@ -28,11 +28,11 @@ pipeline {
             sh '''
               echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 
-              docker build -t $DOCKER_USER/contact-app-ui:${IMAGE_TAG} .
-              docker push $DOCKER_USER/contact-app-ui:${IMAGE_TAG}
+              docker build -t $DOCKER_USER/contact-app:ui-${IMAGE_TAG} .
+              docker push $DOCKER_USER/contact-app:ui-${IMAGE_TAG}
 
-              docker tag $DOCKER_USER/contact-app-ui:${IMAGE_TAG} $DOCKER_USER/contact-app-ui:latest
-              docker push $DOCKER_USER/contact-app-ui:latest
+              docker tag $DOCKER_USER/contact-app:ui-${IMAGE_TAG} $DOCKER_USER/contact-app:ui-latest
+              docker push $DOCKER_USER/contact-app:ui-latest
             '''
           }
         }
@@ -47,11 +47,11 @@ pipeline {
             sh '''
               echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 
-              docker build -t $DOCKER_USER/contact-app-api:${IMAGE_TAG} .
-              docker push $DOCKER_USER/contact-app-api:${IMAGE_TAG}
+              docker build -t $DOCKER_USER/contact-app:api-${IMAGE_TAG} .
+              docker push $DOCKER_USER/contact-app:api-${IMAGE_TAG}
 
-              docker tag $DOCKER_USER/contact-app-api:${IMAGE_TAG} $DOCKER_USER/contact-app-api:latest
-              docker push $DOCKER_USER/contact-app-api:latest
+              docker tag $DOCKER_USER/contact-app:api-${IMAGE_TAG} $DOCKER_USER/contact-app:api-latest
+              docker push $DOCKER_USER/contact-app:api-latest
             '''
           }
         }
@@ -65,11 +65,11 @@ pipeline {
           sh '''
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 
-            docker build -t $DOCKER_USER/contact-app-db:${IMAGE_TAG} .
-            docker push $DOCKER_USER/contact-app-db:${IMAGE_TAG}
+            docker build -t $DOCKER_USER/contact-app:db-${IMAGE_TAG} .
+            docker push $DOCKER_USER/contact:db-${IMAGE_TAG}
 
-            docker tag $DOCKER_USER/contact-app-db:${IMAGE_TAG} $DOCKER_USER/contact-app-db:latest
-            docker push $DOCKER_USER/contact-app-db:latest
+            docker tag $DOCKER_USER/contact-app:db-${IMAGE_TAG} $DOCKER_USER/contact-app:db-latest
+            docker push $DOCKER_USER/contact-app:db-latest
           '''
         }
       }
