@@ -6,7 +6,7 @@ pipeline {
     booleanParam(name: 'BUILD_API', defaultValue: false)
     booleanParam(name: 'BUILD_DB', defaultValue: false)
     booleanParam(name: 'DEPLOY_STACK', defaultValue: false)
-    string(name: 'DOCKER_USER', defaultValue: 'docker-hub-creds', description: 'Docker Hub username')
+    string(name: 'DOCKER_USER', defaultValue: 'yourdockerhubusername', description: 'Docker Hub username')
   }
 
   environment {
@@ -24,12 +24,16 @@ pipeline {
       when { expression { params.BUILD_UI } }
       steps {
         dir('contact-app-ui') {
-          script {
-            docker.withRegistry('', 'docker-hub-creds') {
-              def image = docker.build("${params.DOCKER_USER}/contact-app-ui:${env.IMAGE_TAG}")
-              image.push()
-              image.push('latest')
-            }
+          withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+            sh '''
+              echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+
+              docker build -t $DOCKER_USER/contact-app-ui:${IMAGE_TAG} .
+              docker push $DOCKER_USER/contact-app-ui:${IMAGE_TAG}
+
+              docker tag $DOCKER_USER/contact-app-ui:${IMAGE_TAG} $DOCKER_USER/contact-app-ui:latest
+              docker push $DOCKER_USER/contact-app-ui:latest
+            '''
           }
         }
       }
@@ -39,12 +43,16 @@ pipeline {
       when { expression { params.BUILD_API } }
       steps {
         dir('contact-app-api') {
-          script {
-            docker.withRegistry('', 'docker-hub-creds') {
-              def image = docker.build("${params.DOCKER_USER}/contact-app-api:${env.IMAGE_TAG}")
-              image.push()
-              image.push('latest')
-            }
+          withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+            sh '''
+              echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+
+              docker build -t $DOCKER_USER/contact-app-api:${IMAGE_TAG} .
+              docker push $DOCKER_USER/contact-app-api:${IMAGE_TAG}
+
+              docker tag $DOCKER_USER/contact-app-api:${IMAGE_TAG} $DOCKER_USER/contact-app-api:latest
+              docker push $DOCKER_USER/contact-app-api:latest
+            '''
           }
         }
       }
@@ -53,12 +61,16 @@ pipeline {
     stage('Build & Push DB') {
       when { expression { params.BUILD_DB } }
       steps {
-        script {
-          docker.withRegistry('', 'docker-hub-creds') {
-            def image = docker.build("${params.DOCKER_USER}/contact-app-db:${env.IMAGE_TAG}", ".")
-            image.push()
-            image.push('latest')
-          }
+        withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+          sh '''
+            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+
+            docker build -t $DOCKER_USER/contact-app-db:${IMAGE_TAG} .
+            docker push $DOCKER_USER/contact-app-db:${IMAGE_TAG}
+
+            docker tag $DOCKER_USER/contact-app-db:${IMAGE_TAG} $DOCKER_USER/contact-app-db:latest
+            docker push $DOCKER_USER/contact-app-db:latest
+          '''
         }
       }
     }
