@@ -10,7 +10,7 @@ pipeline {
   }
 
   environment {
-    IMAGE_TAG = "v1"
+    IMAGE_TAG = "${BUILD_NUMBER}"
   }
 
   stages {
