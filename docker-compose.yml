@@ -27,7 +27,7 @@ services:
       - "9090:9090"
 
   ui:
-    image: yourdockerhubuser/contact-app:ui-latest
+    image: imrahulmohanan/contactsapp:ui-latest
     container_name: contact-ui
     restart: always
     depends_on:
