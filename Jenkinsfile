@@ -6,7 +6,7 @@ pipeline {
     booleanParam(name: 'BUILD_API', defaultValue: false)
     booleanParam(name: 'BUILD_DB', defaultValue: false)
     booleanParam(name: 'DEPLOY_STACK', defaultValue: false)
-    string(name: 'DOCKER_USER', defaultValue: 'yourdockerhubusername', description: 'Docker Hub username')
+    string(name: 'DOCKER_USER', defaultValue: 'docker-hub-creds', description: 'Docker Hub username')
   }
 
   environment {
