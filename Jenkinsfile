@@ -66,7 +66,7 @@ pipeline {
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 
             docker build -t $DOCKER_USER/contactsapp:db-${IMAGE_TAG} .
-            docker push $DOCKER_USER/contact:db-${IMAGE_TAG}
+            docker push $DOCKER_USER/contactsapp:db-${IMAGE_TAG}
 
             docker tag $DOCKER_USER/contactsapp:db-${IMAGE_TAG} $DOCKER_USER/contactsapp:db-latest
             docker push $DOCKER_USER/contactsapp:db-latest
